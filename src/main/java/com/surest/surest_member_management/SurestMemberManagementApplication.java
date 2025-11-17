@@ -8,6 +8,7 @@ public class SurestMemberManagementApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SurestMemberManagementApplication.class, args);
+        System.out.println("HELLO NISHANT");
 	}
 
 }
