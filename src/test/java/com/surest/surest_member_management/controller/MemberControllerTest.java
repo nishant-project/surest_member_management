@@ -165,6 +165,6 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$.error").value("Bad Request"))
                 .andExpect(jsonPath("$.message").exists())
                 .andExpect(jsonPath("$.path").value("/api/v1/members"));
-     }
+      }
 
 }
