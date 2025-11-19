@@ -28,7 +28,7 @@ import static com.surest.surest_member_management.constants.ApiConstants.INTERNA
 
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // Handle validation errors (MethodArgumentNotValidException)
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             @NonNull MethodArgumentNotValidException ex,
@@ -60,7 +60,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(status.value()).headers(headers).body(apiError);
     }
 
-    // Handle forbidden access
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiError> handleAccessDenied(AccessDeniedException ex, HttpServletRequest request) {
         ApiError body = buildApiError(
@@ -72,7 +72,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(body);
     }
 
-    // Handle resource not found
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiError> handleNotFound(NotFoundException ex, HttpServletRequest request) {
         ApiError body = buildApiError(
@@ -94,7 +94,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
     }
 
-    // Handle illegal arguments
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiError> handleIllegalArgument(IllegalArgumentException ex, HttpServletRequest request) {
         ApiError body = buildApiError(
@@ -106,7 +106,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(body);
     }
 
-    // Catch-all for unhandled exceptions
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleAllUncaught(HttpServletRequest request, Exception ex) {
         log.error("Unhandled exception at [{}]", request.getRequestURI(), ex);
@@ -121,7 +121,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
     }
 
-    // Helper method to build ApiError
+
     private ApiError buildApiError(String status, String error, String message, String path) {
         int parsedStatus = 500;
         try {

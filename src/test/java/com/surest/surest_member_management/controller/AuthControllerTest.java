@@ -73,7 +73,6 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.token").value("user-token-123"));
     }
 
-    // ---------------------- Negative Tests ----------------------
 
     @Test
     void loginEmptyRequest() throws Exception {

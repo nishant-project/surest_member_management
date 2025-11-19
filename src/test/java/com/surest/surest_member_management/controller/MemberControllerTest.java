@@ -45,7 +45,6 @@ class MemberControllerTest {
     @MockitoBean
     private MemberService memberService;
 
-    // mock any other beans that might be injected into your controller (e.g. JwtUtil)
     @MockitoBean
     private JwtUtil jwtUtil;
 
@@ -150,7 +149,6 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$.content[0].id").value(sampleMember.getId().toString()));
     }
 
-    // Validation test to trigger MethodArgumentNotValidException and verify ApiError response
     @Test
     @WithMockUser(roles = "ADMIN")
     void createMemberInvalidRequestShouldReturnBadRequest() throws Exception {
@@ -165,6 +163,6 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$.error").value("Bad Request"))
                 .andExpect(jsonPath("$.message").exists())
                 .andExpect(jsonPath("$.path").value("/api/v1/members"));
-    }
+       }
 
 }
