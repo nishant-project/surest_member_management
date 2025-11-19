@@ -33,11 +33,11 @@ public class AuthService {
             throw new UnauthorizedException("User account is disabled", ex);
 
         } catch (AuthenticationException ex) {
-            // Covers UsernameNotFoundException internally thrown by UserDetailsService
+
             throw new NotFoundException("User not found");
 
         } catch (Exception ex) {
-            // Generic fallback
+
             throw new UnauthorizedException("Authentication failed", ex);
         }
     }

@@ -159,7 +159,7 @@ class MemberIntegrationTest {
                 .andExpect(jsonPath("$.path").value("/api/v1/members/" + randomId))
                 .andExpect(jsonPath("$.timestamp").isNotEmpty());
     }
-    // Helper: create and persist a valid member quickly
+
     private Member createAndSaveMember(String email, String firstName) {
         Member m = Member.builder()
                 .firstName(firstName)
@@ -170,7 +170,6 @@ class MemberIntegrationTest {
         return memberRepository.save(m);
     }
 
-    // Helper: create JWT with custom expiry (ms). Use for expired token tests.
     private String createJwt(String username, List<String> roles, long customExpirationMs) {
         Instant now = Instant.now();
         Date issuedAt = Date.from(now);
@@ -180,7 +179,7 @@ class MemberIntegrationTest {
         claims.put("roles", roles);
         claims.put("authorities", roles);
 
-        SecretKey key = signingKey; // reuse signingKey created in setUp()
+        SecretKey key = signingKey;
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
@@ -190,21 +189,11 @@ class MemberIntegrationTest {
                 .compact();
     }
 
-//    @Test
-//    void deleteMemberAsUserReturnsForbidden403() throws Exception {
-//        Member existing = createAndSaveMember("tobedeleted@example.com", "ToDelete");
-//
-//        mockMvc.perform(delete("/api/v1/members/{id}", existing.getId())
-//                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + userToken))
-//                .andDo(print())
-//                .andExpect(status().isCreated());
-//    }
 
 
 
     @Test
     void requestWithExpiredTokenReturns401() throws Exception {
-        // create a token that expired 1 minute ago
         String expiredToken = createJwt("expiredUser", List.of("ROLE_USER"), -60_000L);
 
         mockMvc.perform(get("/api/v1/members")
@@ -212,6 +201,4 @@ class MemberIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
-
-
 }

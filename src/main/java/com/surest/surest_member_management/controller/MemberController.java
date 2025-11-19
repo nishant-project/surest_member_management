@@ -22,7 +22,7 @@ public class MemberController {
     private final MemberService memberService;
 
 
-    // Create a new member (Admin only)
+
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
@@ -34,7 +34,7 @@ public class MemberController {
     }
 
 
-    // Retrieve paginated list of members with optional filtering and sorting.Accessible to both USER and ADMIN roles.
+
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -56,7 +56,7 @@ public class MemberController {
         return ResponseEntity.ok(members);
     }
 
-    // Get member by ID. Accessible to USER and ADMIN roles.
+
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -67,7 +67,6 @@ public class MemberController {
     }
 
 
-    // Update existing member details (Admin only)
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
@@ -80,7 +79,6 @@ public class MemberController {
         return ResponseEntity.ok(updatedMember);
     }
 
-    // Delete a member by ID (Admin only)
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")

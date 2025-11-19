@@ -25,7 +25,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    // Create a new member. Ensures email uniqueness before saving.
 
     @Transactional
     public MemberResponse createMember(MemberRequest request) {
@@ -50,7 +49,6 @@ public class MemberService {
     }
 
 
-    // Retrieve a paginated and optionally filtered list of members.
 
     public Page<MemberResponse> getAllMembers(String firstName, String lastName, Pageable pageable) {
         log.info("Fetching members with filters - firstName: {}, lastName: {}", firstName, lastName);
@@ -71,7 +69,6 @@ public class MemberService {
     }
 
 
-    // Retrieve member details by ID (cached).
 
     @Cacheable(value = "members", key = "#id")
     public MemberResponse getMemberById(UUID id) {
@@ -82,7 +79,6 @@ public class MemberService {
     }
 
 
-    // Update an existing member (cached and transactional).
 
     @Transactional
     @CachePut(value = "members", key = "#id")
@@ -95,14 +91,12 @@ public class MemberService {
         String existingEmail = existing.getEmail();
         String newEmail = request.getEmail();
 
-        // Validate email uniqueness
         if (!Objects.equals(existingEmail, newEmail) &&
                 memberRepository.existsByEmailAndIdNot(newEmail, id)) {
             log.warn("Duplicate email detected during update: {}", newEmail);
             throw new IllegalArgumentException("Email already exists");
         }
 
-        // Update entity fields
         existing.setFirstName(request.getFirstName());
         existing.setLastName(request.getLastName());
         existing.setDateOfBirth(request.getDateOfBirth());
@@ -115,7 +109,6 @@ public class MemberService {
     }
 
 
-    //Delete member by ID (cached eviction).
 
     @Transactional
     @CacheEvict(value = "members", key = "#id")
@@ -130,7 +123,6 @@ public class MemberService {
     }
 
 
-    // Helper method to convert Member entity to MemberResponse DTO.
 
     private MemberResponse mapToResponse(Member member) {
         return MemberResponse.builder()
